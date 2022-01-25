@@ -1,0 +1,81 @@
+server:
+  servlet:
+    context-path: /api
+  port: 8686
+spring:
+  # 配置数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.31.91.31:3306/api?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: root
+    password: dbtourism
+    type: com.alibaba.druid.pool.DruidDataSource
+  # 设置返回前端Json数据为NULL字段不显示
+  jackson:
+    default-property-inclusion: NON_NULL
+  # 启用切面
+  aop:
+    proxy-target-class: true
+    auto: true
+  # 配置redis相关
+  redis:
+    host: 172.31.91.31
+    port: 6379
+    password: dbtourism
+    database: 0
+    # 连接超时时长（毫秒）
+    timeout: 15000
+    #lettuce:
+      #pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        #max-active: 1000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        #max-wait: -1
+        # 连接池中的最大空闲连接
+        #max-idle: 10
+        # 连接池中的最小空闲连接
+        #min-idle: 5
+
+
+# mybatis-plus相关配置
+mybatis-plus:
+  # 扫描 XML 文件路径，多个目录用逗号或者分号分隔
+  mapper-locations: classpath:mapper/*.xml
+  # 以下配置均有默认值,可以不设置
+  global-config:
+    # 关闭控制台logo
+    banner: false
+    # 配置数据库相关
+    db-config:
+      #主键类型  auto:"数据库ID自增"
+      id-type: auto
+  # 映射配置
+  configuration:
+    # 开启驼峰命名规则映射
+    map-underscore-to-camel-case: true
+    # 开启Mybatis空字段不映射
+    call-setters-on-nulls: true
+    # 控制台打印SQL
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+##日志配置
+#logging:
+#  file:
+#    # 日志文件名
+#    name: log/api/debug.log.gz
+#    max-size: 100MB
+#    max-history: 30
+#    total-size-cap: 1GB
+#    # 文件存储路径
+#    path: "%d{yyyy-MM-dd HH:mm:ss}"
+#  level:
+#    # 日志级别
+#    org.fox.library: info
+#  pattern:
+#    # 时间格式
+#    dateformat: yyyy-MM-dd hh:mm
+#    #console: "%d - %msg%n"
+
+
+logging:
+  config: classpath:log4j2.yml

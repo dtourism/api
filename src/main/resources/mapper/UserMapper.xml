@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.api.mapper.UserMapper">
+
+    <select id="getUserByName" parameterType="String" resultType="org.api.domain.vo.UserVO">
+        SELECT id,account, user_name, password,status
+        FROM t_sys_user
+        WHERE user_name = #{username}
+        LIMIT 1;
+    </select>
+
+    <select id="userList" parameterType="org.api.domain.dto.UserDTO" resultType="org.api.domain.vo.UserVO">
+        SELECT id,account,password,user_name,header,sex,mobile,birthday,status,
+               create_user_id,create_time,update_user_id,update_time,del
+        FROM t_sys_user
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="account != null and account !=''">
+                AND account = #{account}
+            </if>
+            <if test="userName != null and userName !=''">
+                AND user_name like concat('%', #{userName}, '%')
+            </if>
+            <if test="sex != null">
+                AND sex = #{sex}
+            </if>
+            <if test="mobile != null and mobile !=''">
+                AND mobile = #{mobile}
+            </if>
+            <if test="birthday != null">
+                AND birthday &lt;= #{birthday}
+            </if>
+            <if test="birthday != null">
+                AND birthday &gt;= #{birthday}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="createTime != null">
+                AND create_time &lt;= #{createTime}
+            </if>
+            <if test="createTime != null">
+                AND create_time &gt;= #{createTime}
+            </if>
+            <if test="createUserId != null">
+                AND create_user_id = #{createUserId}
+            </if>
+            <if test="updateTime != null">
+                AND update_time &lt;= #{updateTime}
+            </if>
+            <if test="updateTime != null">
+                AND update_time &gt;= #{updateTime}
+            </if>
+            <if test="updateUserId != null">
+                AND update_user_id = #{updateUserId}
+            </if>
+            <if test="del != null">
+                AND del = #{del}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="addUser" parameterType="org.api.domain.po.UserPO">
+        INSERT INTO t_sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                id,
+            <if test="account != null and account != ''">
+                account,
+            </if>
+            <if test="password != null and password != ''">
+                password,
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name,
+            </if>
+            <if test="header != null and header != ''">
+                header,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="mobile != null and mobile != ''">
+                mobile,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                createTime,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="del != null">
+                del = #{del}
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                null,
+            <if test="account != null and account != ''">
+                #{account},
+            </if>
+            <if test="password != null and password != ''">
+                #{password},
+            </if>
+            <if test="userName != null and userName != ''">
+                #{userName},
+            </if>
+            <if test="header != null and header != ''">
+                #{header},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                #{mobile},
+            </if>
+            <if test="birthday != null">
+                #{birthday},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId},
+            </if>
+            <if test="del != null">
+                #{del}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateUser" parameterType="org.api.domain.po.UserPO">
+        update t_sys_user
+        <set>
+            <if test="account != null and account != ''">
+                account = #{account},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="header != null and header != ''">
+                header = #{header},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                mobile = #{mobile},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId},
+            </if>
+            <if test="del != null">
+                del = #{del}
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteUser" parameterType="Long">
+        DELETE FROM t_sys_user
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>
